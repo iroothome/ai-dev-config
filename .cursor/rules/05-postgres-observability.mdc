@@ -1,0 +1,24 @@
+---
+description: PostgreSQL Schema/迁移与可观测性要求
+globs: *.go
+alwaysApply: false
+---
+
+# PostgreSQL
+
+**Schema 分层:** `core`、`analytics`、`audit`
+
+**迁移:** 使用 Atlas 或 golang-migrate；生产禁止手动改表结构。
+
+# 可观测性（强制）
+
+**指标（每个服务必暴露）：**
+
+| 指标 | 必选 |
+|------|------|
+| request_total | 是 |
+| request_latency | 是 |
+| error_rate | 是 |
+| db_query_latency | 是 |
+
+**链路追踪:** 完整 OpenTelemetry 追踪；TraceID 在 Dapr + Kratos 间透传。

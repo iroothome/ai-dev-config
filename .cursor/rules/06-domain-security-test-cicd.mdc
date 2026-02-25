@@ -1,0 +1,36 @@
+---
+description: 领域设计、服务通信、安全 RBAC、测试与 CI/CD
+globs: *.go
+alwaysApply: false
+---
+
+# AI 友好型领域设计
+
+- 实体关系图：incident -> alert；incident -> topology；rootcause -> service
+- 自然语言映射示例：`"show incidents last 24h"` -> `GET /v1/incidents?since=24h`
+
+# 服务通信策略
+
+| 场景 | 方式 |
+|------|------|
+| 强一致性 | gRPC |
+| 异步事件 | Dapr Pub/Sub |
+| 跨域查询 | API Gateway |
+| 工作流 | Argo / Temporal |
+
+# 安全与 RBAC
+
+- **认证:** OIDC / OAuth2；服务间 mTLS
+- **角色:** PlatformAdmin、SRE、Developer、ReadOnlyBot
+
+# 测试要求
+
+| 类型 | 要求 |
+|------|------|
+| 单元测试 | >= 100% |
+| 集成测试 | 核心服务流程全覆盖 |
+
+# CI/CD 与 Git
+
+- **分支:** main、release/*、dev/*、fix/*
+- 每次提交触发 CI；每次发布触发镜像构建 + helm 发布

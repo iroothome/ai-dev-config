@@ -1,0 +1,34 @@
+---
+description: Kratos 项目结构与 API 设计规则
+globs: *.go,*.proto
+alwaysApply: false
+---
+# 单服务工程约定
+
+**本仓库（以及同 monorepo 下的每个子工程）均为「一个工程即一个服务」。**
+
+- 不要在 `internal/` 下再按服务名建一层目录（例如禁止 `internal/ticket/`、`internal/admin/`）。
+- 服务代码直接放在 `internal/` 下：`internal/biz`、`internal/data`、`internal/service`、`internal/server`、`internal/ent` 等，保持扁平。
+- 以功能为维度, 尽可能保持一致, 例如 
+
+# Kratos 项目结构
+
+```
+/cmd/{service}     # 本服务入口，如 cmd/ticket-service
+/internal          # 扁平结构，不再包一层服务名
+  /biz             # domain logic
+  /data            # ent repositories
+  /service         # transport layer (http/grpc)
+  /server          # server bootstrap
+  /ent             # Ent 生成代码（若使用）
+/api
+  /{domain}/v1     # Protobuf 定义，如 api/ticket/v1
+```
+
+**禁止：** 在 service 层访问数据库；在传输层写业务逻辑；数据库外键；数据库存储过程；在 `internal/` 下增加以服务名命名的子目录（如 `internal/ticket/`）等。
+
+# API 设计
+
+**HTTP REST:** `/v1/{resource}`、`/v1/{resource}/{id}`
+
+**gRPC:** Proto 放在 `/api/proto`；必须支持 grpc-gateway；对 proto 包做版本管理。

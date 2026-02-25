@@ -1,0 +1,58 @@
+---
+description: Kratos 框架下 Proto 开发规范（目录、package、grpc-gateway、命名）
+globs: *.proto
+alwaysApply: false
+---
+
+# 目录与版本
+
+- Proto 放在 **api/{service}/v1/** 下，按版本分目录（v1、v2）。
+- 业务 proto 不放在 internal；配置类可放 internal/conf（如 conf.proto）。
+- 第三方依赖放 **third_party/**，不要改第三方 proto。
+
+# 文件头与 package
+
+```protobuf
+syntax = "proto3";
+
+package {service}.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "{module}/api/{service}/v1;v1";
+```
+
+- **package** 与目录一致：`{service}.v1`。
+- **go_package**：`{go module 路径}/api/{service}/v1;v1`，分号后为 Go 短包名。
+
+# grpc-gateway（强制）
+
+- 必须 `import "google/api/annotations.proto"`。
+- 每个需暴露 HTTP 的 RPC 必须绑定 `option (google.api.http) = { ... }`。
+- HTTP 路径建议：`/api/v1/{resource}`、`/api/v1/{resource}/{id}`，与 REST 规则一致。
+
+# 命名约定
+
+| 类型 | 规范 | 示例 |
+|------|------|------|
+| Service | XxxService | TicketService, AdminService |
+| RPC | 动词+资源，大驼峰 | CreateTicket, GetTicket, ListTickets |
+| Request/Reply | XxxRequest / XxxReply | CreateTicketRequest, GetTicketReply |
+| Message 字段 | snake_case | user_id, created_at |
+| 枚举值 | 大写下划线 | STATUS_OPEN, USER_NOT_FOUND |
+
+# Message 与字段
+
+- 请求/响应使用独立 Message，不要复用同一 message 做入参和出参。
+- 必填字段按需使用；推荐用 **optional** 或 **validate** 标注可选。
+- 时间用 `google.protobuf.Timestamp`，ID 用 `string` 或 `int64` 统一即可。
+
+# 错误码
+
+- 按服务或域在 **api/{service}/v1/error_reason.proto** 中定义 `enum ErrorReason`，或使用项目统一的 **third_party/errors**。
+- 与 Kratos Errors 组件配合：通过 Protobuf Enum 生成判定接口。
+
+# 与 Kratos 的配合
+
+- 生成命令：`kratos proto add api/xxx/v1/xxx.proto`，再 `proto client` / `proto server` 生成代码。
+- 校验：可用 **third_party/validate** 在字段上加校验规则，供 Kratos Validation 中间件使用。

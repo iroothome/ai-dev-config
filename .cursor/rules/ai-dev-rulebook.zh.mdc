@@ -1,0 +1,22 @@
+---
+description: AI 原生 SRE 后端规则书总览（详见同目录下各条规则）
+alwaysApply: false
+---
+
+# AI 开发规则书总览
+
+本规则书已拆分为多条规则，按主题生效。当前目录下：
+
+| 规则文件 | 说明 |
+|----------|------|
+| **00-vision-techstack.mdc** | 愿景、原则、固定技术栈、服务地图、版本与治理（alwaysApply） |
+| **01-ai-service-contract.mdc** | AI 服务定义模板与代码生成契约 |
+| **02-kratos-structure-api.mdc** | Kratos 项目结构、禁止项、API 设计（REST/gRPC）（对 .go / .proto 生效） |
+| **02b-proto-kratos.mdc** | Kratos 框架下 Proto 开发规范（目录、package、grpc-gateway、命名）（对 .proto 生效） |
+| **03-ent-schema.mdc** | Ent 命名、必选字段、可扩展字段 |
+| **04-dapr-redis.mdc** | Dapr Pub/Sub/状态存储、Redis 缓存与锁 |
+| **05-postgres-observability.mdc** | PostgreSQL Schema/迁移、可观测性指标与链路 |
+| **06-domain-security-test-cicd.mdc** | 领域设计、服务通信、安全 RBAC、测试、CI/CD |
+| **07-kratos-dev-principles.mdc** | Kratos 开发原则与创建服务命令 |
+
+编辑 Go 代码时，相关规则会按 glob 自动匹配；总览本文件可快速定位到具体规则。

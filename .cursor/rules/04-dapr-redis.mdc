@@ -1,0 +1,24 @@
+---
+description: Dapr 集成与 Redis 使用规则
+globs: *.go
+alwaysApply: false
+---
+
+# Dapr Pub/Sub 主题
+
+格式：`{domain}.{event}.{version}`
+
+示例：`alert.created.v1`、`incident.resolved.v1`
+
+# Dapr 状态存储键
+
+格式：`{service}:{resource}:{id}`
+
+# Redis 缓存
+
+- 必须使用 **Cache Aside**；TTL 必须显式定义
+- 键格式：`sre:{service}:{resource}:{id}`
+
+# 分布式锁
+
+使用 Dapr Lock API 或 Redlock。

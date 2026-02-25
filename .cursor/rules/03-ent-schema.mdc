@@ -1,0 +1,31 @@
+---
+description: Ent 数据建模规则（命名、必选字段、可扩展字段）
+globs: *.go
+alwaysApply: false
+---
+
+# 命名约定
+
+| 实体 | 表名 |
+|------|------|
+| Alert | alerts |
+| Incident | incidents |
+
+# 必选字段
+
+```go
+id uuid PK
+created_at timestamp
+updated_at timestamp
+deleted_at timestamp (soft delete)
+```
+
+# AI 可扩展的 Schema 字段
+
+```go
+metadata jsonb
+semantic_tags text[]
+```
+
+# 要求
+1. 不使用外键

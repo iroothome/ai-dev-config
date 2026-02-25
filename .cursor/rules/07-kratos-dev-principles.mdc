@@ -1,0 +1,41 @@
+---
+description: Kratos 开发原则与组件参考（链接）
+globs: *.go
+alwaysApply: false
+---
+
+# 开发原则
+
+简单、通用、高效、稳定、健壮、高性能、扩展性、容错性、工具链。详见 [Kratos 文档](https://go-kratos.dev/zh-cn)。
+
+# 组件参考
+
+- [APIs/Errors/Metadata/Config/Logger](https://go-kratos.dev/zh-cn/docs/component/api)
+- [Metrics/Tracing/Transport/Registry/Validation](https://go-kratos.dev/zh-cn/docs/component/middleware/metrics)
+- [SwaggerAPI](https://go-kratos.dev/zh-cn/docs/guide/openapi)
+
+# 创建服务（简要）
+
+```bash
+go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
+kratos new helloworld && cd helloworld
+go mod download
+kratos proto add api/helloworld/helloworld.proto
+kratos proto client api/helloworld/helloworld.proto
+kratos proto server api/helloworld/helloworld.proto -t internal/service
+go generate ./...
+kratos run
+```
+
+# 创建API
+
+```bash
+# 创建proto
+kratos proto add api/helloworld/helloworld.proto
+# 生成 client
+kratos proto client api/helloworld/helloworld.proto
+# 生成 server
+kratos proto server api/helloworld/helloworld.proto -t internal/service
+```
+
+**依赖:** go、protoc、protoc-gen-go。

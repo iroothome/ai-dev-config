@@ -1,0 +1,40 @@
+---
+description: SRE 平台愿景、固定技术栈、服务地图与版本治理
+alwaysApply: true
+---
+
+# 愿景与原则
+
+构建**AI 原生的 SRE 开放平台**：
+
+- 所有系统**默认可观测**
+- 所有操作**声明式且可自动化**
+- AI 智能体能够**安全地生成、修改和运维微服务**
+
+> **一切即代码，一切即数据，一切可观测**
+
+# 固定技术栈（不可协商）
+
+| 层级 | 技术 |
+|------|------|
+| API 框架 | Kratos (protobuf + gRPC + HTTP Gateway) |
+| 服务运行时 | Dapr |
+| ORM | Ent |
+| 缓存 | Redis |
+| 数据库 | PostgreSQL |
+| 配置 | Dapr Config Store / Consul |
+| 可观测性 | OpenTelemetry, Prometheus, Loki, Tempo |
+| 部署 | Kubernetes |
+| 工作流 | Argo Workflows / Temporal |
+
+# 核心服务地图（推荐）
+
+- **核心平台**: auth-service, tenant-service, project-service
+- **可观测与智能**: alert-service, incident-service, rootcause-service, topology-service
+- **AI Ops**: anomaly-detection-service, recommendation-service, postmortem-generator-service
+- **自动化**: runbook-service, action-executor-service, workflow-orchestrator-service
+
+# 版本与治理
+
+- **API/事件**: v1, v2 版本管理；**数据库迁移**: 版本化
+- AI 智能体必须按规则书校验；PR 须包含架构合规检查；不合规代码自动拒绝

@@ -1,0 +1,48 @@
+---
+description: AI 驱动开发契约——服务定义模板与代码生成要求
+globs: *.go
+alwaysApply: false
+---
+# 强制服务定义模板
+
+所有 AI 生成的服务必须遵循：
+
+```
+Service Name:
+Domain:
+Responsibility:
+APIs:
+Data Model:
+Events:
+Dependencies:
+Non-Functional Requirements:
+```
+
+**示例：**
+```
+Service Name: incident-service
+Domain: SRE Incident Management
+Responsibility: Track incidents and lifecycle
+APIs:
+  - POST /v1/incidents
+  - GET /v1/incidents/{id}
+Data Model: Incident, IncidentTimeline
+Events: incident.created.v1
+Dependencies: postgres, redis, dapr pubsub
+NFR: high availability, auditability
+```
+
+# AI 代码生成契约
+
+**强制提示词头：**
+```
+Generate Kratos microservice using:
+- Dapr pubsub
+- Ent schema
+- PostgreSQL
+- Redis cache
+Follow SRE-Platform-AI-Dev-Rulebook v1
+Include proto, biz, repo, observability
+```
+
+**代码质量：** DDD 分层、Repository 模式、透传 Context、接口可 Mock。
